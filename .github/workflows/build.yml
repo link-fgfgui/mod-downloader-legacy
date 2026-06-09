@@ -23,26 +23,26 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-            build_flags: "-tags webkit2_41" # 专门给 Linux 续上这个关键参数
+            build_flags: "-tags webkit2_41"
           - os: windows-latest
             platform: windows
-            build_flags: ""                 # Windows 不需要
+            build_flags: ""
           - os: macos-latest
             platform: darwin
-            build_flags: ""                 # macOS 不需要
+            build_flags: ""
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6 # 🚀 升级到 v6 (原生支持 Node 24)
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6 # 🚀 升级到 v6 (原生支持 Node 24)
         with:
           go-version: 'stable'
           cache: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6 # 🚀 升级到 v6 (原生支持 Node 24)
         with:
           node-version: '20'
           cache: 'npm'
@@ -60,7 +60,6 @@ jobs:
       - name: Build Wails App
         shell: bash
         run: |
-          # 动态带入矩阵中定义的 build_flags
           wails build -clean ${{ matrix.build_flags }}
 
       - name: Package macOS App
@@ -72,7 +71,7 @@ jobs:
           rm -rf *.app
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7 # 🚀 升级到 v7 (原生支持 Node 24)
         with:
           name: wails-artifact-${{ matrix.platform }}
           path: build/bin/*
@@ -85,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download All Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8 # 🚀 升级到 v8 (对应 v7 artifact 的下载器)
         with:
           path: ./artifacts
 
